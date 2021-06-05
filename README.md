@@ -7,7 +7,7 @@
 ## Project setup
 
 ```
-npm install
+npm install disable-body-scroll
 ```
 
 ### export
