@@ -1,6 +1,6 @@
 {
-  "name": "disable-body-scrollx",
-  "version": "0.1.2",
+  "name": "disable-body-scroll",
+  "version": "0.1.3",
   "private": false,
   "files": [
     "dist"
