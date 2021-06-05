@@ -54,7 +54,7 @@ export const disabledBodyScroll = function (dom) {
     let dir = disY > 0 ? "top" : "bottom";
     let disabled = disabledDefault(dom, dir);
     // document.querySelector("#offsetx").innerHTML="-"+t;
-      if (disabled) {
+      if (disabled&&e.cancelable) {
         e.preventDefault();
      }
      

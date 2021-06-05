@@ -6,7 +6,7 @@
     "./dist/index.js"
   ],
   "license": "MIT",
-  "repository": "#",
+  "repository": "https://github.com/MTTTM/disable-body-scroll/tree/main",
   "description": "Disable the scrolling of the content of the body when the content of the pop-up window is scrolled",
   "keywords": [
     "disable",
