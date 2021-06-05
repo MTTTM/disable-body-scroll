@@ -1,0 +1,51 @@
+# disable-body-scroll
+
+- Disable the scrolling of the content of the body when the content of the pop-up window is scrolled
+- Support vue directive(vue2,vue3)
+- Support independent function call
+
+## Project setup
+
+```
+npm install
+```
+
+### export
+
+| key                | desc                        | params1    | params2             |
+| ------------------ | --------------------------- | ---------- | ------------------- |
+| throttle           | throttle function           | function   | number(default:200) |
+| disabledBodyScroll | disabledBodyScroll function | scroll dom | ---                 |
+| directive          | vue directive config        | --         | ---                 |
+
+### Usage
+
+#### throttle
+
+```javascript
+throttle(function() {}, 150)();
+```
+
+#### disabledBodyScroll
+
+- recommended to replace it with directive if you use vue
+
+```javascript
+disabledBodyScroll(document.querySeletor("#modelScrollBox"));
+```
+
+#### directive
+
+- only work with vue
+
+```javascript
+import { directive } from "disable-body-scroll";
+Vue.directive("disabled-body-scroll", { ...directive });
+```
+
+```html
+<div id="modelScrollBox" v-disabled-body-scroll>
+  ...
+</div>
+;
+```
