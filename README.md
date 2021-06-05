@@ -12,11 +12,10 @@ npm install disable-body-scroll
 
 ### export
 
-| key                | desc                        | params1    | params2             |
-| ------------------ | --------------------------- | ---------- | ------------------- |
-| throttle           | throttle function           | function   | number(default:200) |
-| disabledBodyScroll | disabledBodyScroll function | scroll dom | ---                 |
-| directive          | vue directive config        | --         | ---                 |
+| key                | desc                        | params1    | params2 |
+| ------------------ | --------------------------- | ---------- | ------- |
+| disabledBodyScroll | disabledBodyScroll function | scroll dom | ---     |
+| directive          | vue directive config        | --         | ---     |
 
 ### Usage
 

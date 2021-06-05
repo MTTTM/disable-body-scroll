@@ -1,23 +1,15 @@
 <template>
   <div id="app">
-    <div class="fixed-pancel" v-disabled-body-scroll>
-      <div class="fixed-pancel-inner">
-        <p style="background: green">23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p>23444</p>
-        <p style="background: blue">23444</p>
+    <div>
+      <div class="fixed-pancel" v-disabled-body-scroll>
+        <div class="fixed-pancel-inner">
+          <p style="background: green">header</p>
+          <p v-for="item in arr" :key="item" @click="clickFn(item)">
+            {{ item }}
+          </p>
+
+          <p style="background: blue">footer</p>
+        </div>
       </div>
     </div>
     <div class="num">
@@ -64,6 +56,19 @@
 <script>
 export default {
   name: "App",
+  data() {
+    return {
+      arr: [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+      ],
+    };
+  },
+  methods: {
+    clickFn(item) {
+      alert(item);
+    },
+  },
 };
 </script>
 
@@ -110,5 +115,8 @@ li {
 
 li:nth-child(odd) {
   background: skyblue;
+}
+p:nth-child(odd) {
+  background: pink;
 }
 </style>
