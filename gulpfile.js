@@ -4,7 +4,7 @@ var uglify = require('gulp-uglify');
 const a=function (cb) {
   src("./libs/index.js")
         .pipe(babel({
-          "presets": ['@vue/cli-plugin-babel/preset',
+          "presets": [
           [
             "@babel/preset-env",
             {
@@ -15,7 +15,7 @@ const a=function (cb) {
           ]
         ]
         }))
-          .pipe(uglify())
+         .pipe(uglify())
         .pipe(dest("./dist/"))
   cb();
 }

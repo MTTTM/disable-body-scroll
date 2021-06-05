@@ -1,9 +1,9 @@
 {
-  "name": "disable-body-scroll",
-  "version": "0.1.0",
+  "name": "disable-body-scrollx",
+  "version": "0.1.2",
   "private": false,
   "files": [
-    "./dist/index.js"
+    "dist"
   ],
   "license": "MIT",
   "repository": "https://github.com/MTTTM/disable-body-scroll/tree/main",
@@ -15,7 +15,7 @@
     "disable-scroll",
     "disable-body-scroll"
   ],
-  "main":  "./dist/index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
