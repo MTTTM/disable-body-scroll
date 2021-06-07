@@ -25,6 +25,7 @@ function removeDocumentStartEvent(el){
  * @param {*} dom  model scroll dom 
  */
 export const disabledBodyScroll = function (dom) {
+  console.log("log:::::::::")
   let startY = 0;
   function fixEvent(e) {
     let position = {};

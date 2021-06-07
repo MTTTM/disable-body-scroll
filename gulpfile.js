@@ -2,6 +2,7 @@ const { src, dest,series } = require('gulp');
 const babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
 var browserify = require('gulp-browserify');
+var rename = require("gulp-rename");
 const es6=function (cb) {
   src("./libs/index.js")
   
@@ -17,10 +18,9 @@ const es6=function (cb) {
           ]
         ]
         }))
-        .pipe(browserify({}))
-        //  .pipe(uglify())
-        .pipe(dest("./dist/es/"))
-        //iife
+        .pipe(uglify())
+        .pipe(rename({ suffix: '.es.min' }))
+        .pipe(dest("./dist/"))
   cb();
 }
 
@@ -41,19 +41,17 @@ const iife=function (cb) {
         ],
         "plugins": [['babel-plugin-transform-modules-iife', 
               {
-                "exportNamespace":"disabledBodyScroll"
+                "exportNamespace":"DisableBodyScroll"
              }
             ]]
         }))
-        .pipe(browserify({}))
-        //  .pipe(uglify())
-        .pipe(dest("./dist/iife/"))
-        //iife
+         .pipe(uglify())
+        .pipe(rename({ suffix: '.browser.min' }))
+        .pipe(dest("./dist/"))
   cb();
 }
 const umd=function (cb) {
   src("./libs/index.js")
-  
         .pipe(babel({
           "presets": [
           [
@@ -67,10 +65,9 @@ const umd=function (cb) {
           ]
         ]
         }))
-        .pipe(browserify({}))
-        //  .pipe(uglify())
-        .pipe(dest("./dist/amd"))
-        //iife
+        .pipe(uglify())
+        .pipe(rename({ suffix: '.amd.min' }))
+        .pipe(dest("./dist"))
   cb();
 }
 
