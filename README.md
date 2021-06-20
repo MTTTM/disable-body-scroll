@@ -1,6 +1,7 @@
 # disable-body-scroll
 
 - Disable the scrolling of the content of the body when the content of the pop-up window is scrolled
+- Please add to the Y-axis scrolling element
 - Support vue directive(vue2,vue3)
 - Support independent function call
 - [demo](https://1c4lc.csb.app/)
