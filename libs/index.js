@@ -1,6 +1,6 @@
 
-let isScrollToBottom = (dom) => dom.scrollHeight === (dom.scrollTop + dom.offsetHeight);
-let isScrollToTop = (dom) => dom.scrollTop === 0;
+let isScrolledToBottom = (dom) => dom.scrollHeight === (dom.scrollTop + dom.offsetHeight);
+let isScrolledToTop = (dom) => dom.scrollTop === 0;
 var ua = navigator.userAgent.toLowerCase();
 let isIpad = ua.match(/ipad/i) == "ipad"
 /**
@@ -10,10 +10,10 @@ let isIpad = ua.match(/ipad/i) == "ipad"
 function disabledDefault(dom, swipeDir = "top") {
   // document.querySelector("#offsety").innerHTML=dom.scrollTop;
   console.log("dir", swipeDir)
-  if (swipeDir == "top" && isScrollToTop(dom)) {
+  if (swipeDir == "top" && isScrolledToTop(dom)) {
     return true;
   }
-  else if (swipeDir == "bottom" && isScrollToBottom(dom)) {
+  else if (swipeDir == "bottom" && isScrolledToBottom(dom)) {
     return true;
   }
   else {
@@ -88,10 +88,10 @@ export const disabledBodyScroll = function (dom, binding) {
     //It needs to grab the priority of the scrollable body at ipad
     //其实就这一个步骤就可以通过主动触发滚动元素的滚动，来阻止触发外部滚动
     if (dom && dom.style && dom.style.display !== "none" && scrollOnePxWhenTouch) {
-      if (isScrollToBottom(dom)) {
+      if (isScrolledToBottom(dom)) {
         dom.scrollBy(0, -1)
       }
-      else if (isScrollToTop(dom)) {
+      else if (isScrolledToTop(dom)) {
         dom.scrollBy(0, 1)
       }
     }
