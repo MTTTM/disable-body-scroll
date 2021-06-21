@@ -1,5 +1,5 @@
 {
-  "name": "disable-body-scroll",
+  "name": "disable-body-scrollxx",
   "version": "0.1.6",
   "private": false,
   "files": [
@@ -28,7 +28,8 @@
     "browserify": "^17.0.0",
     "core-js": "^3.6.5",
     "gulp-rename": "^2.0.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

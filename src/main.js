@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
-// import {directive} from "../libs/index"
-// import {directive} from "../dist/index.es.min.js"
-// import {directive} from "disable-body-scroll"
-let D  = require("disable-body-scroll");
-console.log("D",D)
+import router from './route/index'
+import { directive } from "../libs/index"
+import { directive as hsDirective } from "./assets/js/vueHorizontalScreen";
+
 Vue.config.productionTip = false
-Vue.directive('disabled-body-scroll',{...D.directive});
+Vue.directive('disabled-body-scroll', { ...directive });
+Vue.directive("horizontal-screen", { ...hsDirective });
+
 new Vue({
+  router,
   render: h => h(App),
 }).$mount('#app')
