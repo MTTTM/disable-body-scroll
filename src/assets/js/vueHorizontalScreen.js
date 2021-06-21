@@ -21,8 +21,8 @@ export const getDir = () => {
   }
 }
 /**
-* @description isImmersiveNav
-*/
+ * @description isImmersiveNav
+ */
 export const isImmersive = () => {
   let wHeight = window.innerHeight;
   let dHeight = document.documentElement.clientHeight;
@@ -39,11 +39,11 @@ export const isMobile = () => {
   }
 }
 /**
-*  派发自定义事件
-* @param {Event} event 
-* @param {*} data 
-* @param {Null or Document} target 
-*/
+ *  派发自定义事件
+ * @param {Event} event 
+ * @param {*} data 
+ * @param {Null or Document} target 
+ */
 const dispatch = function (event, data, target = null) {
   event.data = {
     data
@@ -56,10 +56,10 @@ const dispatch = function (event, data, target = null) {
   }
 }
 /**
-* 注册事件，并且返回
-* @param {String} eventName 
-* @returns {Event}
-*/
+ * 注册事件，并且返回
+ * @param {String} eventName 
+ * @returns {Event}
+ */
 function createEvent(eventName) {
   let e = document.createEvent('HTMLEvents');
   e.initEvent(eventName, false, true);
@@ -88,10 +88,10 @@ function stopPropagation(el, ev) {
   }
 }
 /**
-* 鼠标按下
-* @param {*} obj 
-* @returns {Function}
-*/
+ * 鼠标按下
+ * @param {*} obj 
+ * @returns {Function}
+ */
 function fnStartParams(obj = {}, el) {
   return function (ev) {
     stopPropagation(el, ev);
@@ -105,10 +105,10 @@ function fnStartParams(obj = {}, el) {
   }
 }
 /**
-*鼠标移动
-* @param {*} obj 
-* @returns {Function}
-*/
+ *鼠标移动
+ * @param {*} obj 
+ * @returns {Function}
+ */
 function fnMoveParams(obj = {}, el) {
   return function (ev) {
     stopPropagation(el, ev);
@@ -121,14 +121,14 @@ function fnMoveParams(obj = {}, el) {
   }
 }
 /**
-* 鼠标放开
-* @param {String} callbackType 
-* @param {Object} baseInfo 
-* @param {Object<Event>} eventMaps 
-* @param {Function} callback  dom的自定义事件回调函数
-* @param {Document} el  dom
-* @returns 
-*/
+ * 鼠标放开
+ * @param {String} callbackType 
+ * @param {Object} baseInfo 
+ * @param {Object<Event>} eventMaps 
+ * @param {Function} callback  dom的自定义事件回调函数
+ * @param {Document} el  dom
+ * @returns 
+ */
 function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback, el) {
   let swipes = {
     win: function (swipeName, data) {
@@ -180,12 +180,12 @@ function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback,
   }
 }
 /**
-* 界面适配
-* @param {object} obj 
-* @param {Event || bool} e 如果是监听器触发的，就是Event，如果是主动调用的就是boolean false
-*/
+ * 界面适配
+ * @param {object} obj 
+ * @param {Event || bool} e 如果是监听器触发的，就是Event，如果是主动调用的就是boolean false
+ */
 function hsLayoutFunc(obj = {}, e) {
-  let { oneTimesWidth, oneTimesHeight, cssVar, setWrapAttr, adaptEvent, adaptedCallback, el, binding, vnode } = obj;
+  let { oneTimesWidth, oneTimesHeight, cssVar, setWrapAttr, adaptEvent, adaptedCallback, el, binding, vnode, rotate } = obj;
   let clientWidth = window.innerWidth;
   let clientHeight = window.innerHeight;
   let maxWidth = clientWidth > clientHeight ? clientWidth : clientHeight;
@@ -210,8 +210,15 @@ function hsLayoutFunc(obj = {}, e) {
     || window.orientation === 180
     || window.orientation === 0
   ) && !isPc) {//竖屏状态
-    el.style.webkitTransform = el.style.transform = `rotate(90deg)`;
-    el.style.webkitTransformOrigin = el.style.transformOrigin = `${clientWidth / 2}px center`;
+    el.style.webkitTransform = el.style.transform = `rotate(${rotate}deg)`;
+    console.log("rotate", rotate)
+    if (rotate == 90) {
+      el.style.webkitTransformOrigin = el.style.transformOrigin = `${clientWidth / 2}px center`;
+    }
+    else if (rotate == -90) {
+      el.style.webkitTransformOrigin = el.style.transformOrigin = ` center ${clientHeight / 2}px`;
+    }
+
     if (setWrapAttr) {
       el.style.width = `${clientHeight}px`;
       el.style.height = `${clientWidth}px`;
@@ -236,7 +243,11 @@ function hsLayoutFunc(obj = {}, e) {
   }
 }
 function directiveBindfunction(el, binding, vnode) {
-  let { cssVar, width, height, times, triggerTime, AdaptEventName, setWrapAttr, adaptedCallback } = binding.value;
+  let { cssVar, width, height, times, triggerTime, AdaptEventName, setWrapAttr, adaptedCallback, rotate } = binding.value;
+  console.log("rotatexxx", rotate)
+  if ([90, -90].indexOf(rotate) == -1) {
+    rotate = 90;
+  }
   if (!times) {
     times = 1;
     console.warn("times is required!!");
@@ -257,7 +268,7 @@ function directiveBindfunction(el, binding, vnode) {
     setWrapAttr = true;
   }
   let adaptEvent = createEvent(AdaptEventName);
-  var baseInfo = { oneTimesWidth, oneTimesHeight, el, cssVar, setWrapAttr, adaptEvent, adaptedCallback, binding, vnode };
+  var baseInfo = { oneTimesWidth, oneTimesHeight, el, cssVar, setWrapAttr, adaptEvent, adaptedCallback, binding, vnode, rotate };
   let timer;
   el.$hsLayout = (dispatchAdatedEvent = false) => { hsLayoutFunc(baseInfo, dispatchAdatedEvent) };
   el.$delayLayout = function (dispatchAdatedEvent = false) {
@@ -321,11 +332,11 @@ export const directiveForDom = {
 }
 let eventInited = false;
 /**
-* 
-* @param {Object} obj
-* @description pre  事件前缀，默认为空
-* @description distance  事件距离，默认50
-*/
+ * 
+ * @param {Object} obj
+ * @description pre  事件前缀，默认为空
+ * @description distance  事件距离，默认50
+ */
 export const event = (obj = { distance: 50, pre: '' }) => {
   if (eventInited) { return; }
   let { pre, distance } = obj;

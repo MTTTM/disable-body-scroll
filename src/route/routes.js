@@ -1,6 +1,7 @@
 import Index from "../pages/index"
 import SimpePage from "../pages/simple"
 import HorizontalScreen from "../pages/horizontalScreen1"
+import HorizontalScreen2 from "../pages/horizontalScreen2"
 export default [
   {
     path: '/',
@@ -20,6 +21,10 @@ export default [
     path: "/HorizontalScreen",
     component: HorizontalScreen,
     title: "HorizontalScreen roate 90"
+  }, {
+    path: "/HorizontalScreen2",
+    component: HorizontalScreen2,
+    title: "HorizontalScreen roate -90"
   }
 
 ]

@@ -67,10 +67,10 @@ export default {
         height: 1125,
         cssVar: "hs-var",
         times: 3,
-        rotate: 90,
+        rotate: -90,
       },
       config: {
-        rotate: 90,
+        rotate: -90,
         horizontalScreen: true,
         scrollOnePxWhenTouch: false,
       },
