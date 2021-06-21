@@ -1,6 +1,6 @@
 
-let isScrollToBottom = (dom)=>dom.scrollHeight === (dom.scrollTop + dom.offsetHeight);
-let isScrollToTop = (dom)=>dom.scrollTop === 0;
+let isScrollToBottom = (dom) => dom.scrollHeight === (dom.scrollTop + dom.offsetHeight);
+let isScrollToTop = (dom) => dom.scrollTop === 0;
 /**
  * @params dom {dom}
  * @params swipeDir {string} top|bottom
@@ -17,15 +17,14 @@ function disabledDefault(dom, swipeDir = "top") {
     return false;
   }
 }
-function removeDocumentStartEvent(el){
-  document.removeEventListener("touchstart",el.$documentTouchStart);
+function removeDocumentStartEvent(el) {
+  document.removeEventListener("touchstart", el.$documentTouchStart);
 }
 /**
  * 
  * @param {*} dom  model scroll dom 
  */
 export const disabledBodyScroll = function (dom) {
-  console.log("log:::::::::")
   let startY = 0;
   function fixEvent(e) {
     let position = {};
@@ -55,10 +54,10 @@ export const disabledBodyScroll = function (dom) {
     let dir = disY > 0 ? "top" : "bottom";
     let disabled = disabledDefault(dom, dir);
     // document.querySelector("#offsetx").innerHTML="-"+t;
-      if (disabled&&e.cancelable) {
-        e.preventDefault();
-     }
-     
+    if (disabled && e.cancelable) {
+      e.preventDefault();
+    }
+
   }
   function upFunction(e) {
     e.stopPropagation();
@@ -69,26 +68,26 @@ export const disabledBodyScroll = function (dom) {
   function documentTouchStart(e) {
     e.stopPropagation();
     //It needs to grab the priority of the scrollable body at ipad
-    if(isScrollToBottom(dom)){
-      dom.scrollBy(0,-1)
+    if (isScrollToBottom(dom)) {
+      dom.scrollBy(0, -1)
     }
-    else if(isScrollToTop(dom)){
-      dom.scrollBy(0,1)
+    else if (isScrollToTop(dom)) {
+      dom.scrollBy(0, 1)
     }
     // document.querySelector("#offsetx").innerHTML="-start";
     let position = fixEvent(e);
     startY = position.offsetY;
-    dom.addEventListener("touchmove", dom.$movefunction,false)
-    dom.addEventListener("touchend", dom.$upFunction,false)
+    dom.addEventListener("touchmove", dom.$movefunction, false)
+    dom.addEventListener("touchend", dom.$upFunction, false)
   }
-  dom.$movefunction=movefunction;
-  dom.$upFunction=upFunction;
-  dom.$documentTouchStart=documentTouchStart
-  document.addEventListener("touchstart", dom.$documentTouchStart,false);
+  dom.$movefunction = movefunction;
+  dom.$upFunction = upFunction;
+  dom.$documentTouchStart = documentTouchStart
+  document.addEventListener("touchstart", dom.$documentTouchStart, false);
 }
 export const directive = {
   bind: disabledBodyScroll,//v2
   beforeMount: disabledBodyScroll,//v3
   unbind: removeDocumentStartEvent,//v2
-  unmounted:removeDocumentStartEvent//v3
+  unmounted: removeDocumentStartEvent//v3
 }
