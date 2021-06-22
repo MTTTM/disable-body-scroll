@@ -201,16 +201,17 @@ function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback,
       }
 
     } else {
-      let eventName = "";
       //水平事件
+      let hseventName = "";
       if (disY < 0 && disY < Number(-distance)) {
-        rotate === 90 ? eventName = "swipeLeft" : eventName = "swipeRight";
+        rotate === 90 ? hseventName = "swipeLeft" : hseventName = "swipeRight";
       }
       else if (disY > 0 && disY > distance) {
-        rotate === 90 ? eventName = "swipeRight" : eventName = "swipeLeft";
+        rotate === 90 ? hseventName = "swipeRight" : hseventName = "swipeLeft";
       }
-      eventName && dispatchSwipe(eventName, newBaseInfo)
+      hseventName && dispatchSwipe(hseventName, newBaseInfo)
       //垂直事件
+      let eventName = "";
       if (disX < 0 && disX < Number(-distance)) {
         rotate === 90 ? eventName = "swipeBottom" : eventName = "swipeTop";
       }
