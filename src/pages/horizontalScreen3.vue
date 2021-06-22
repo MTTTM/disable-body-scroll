@@ -58,7 +58,7 @@ export default {
   name: "App",
   data() {
     return {
-      arr: [1, 2, 3],
+      arr: [1],
       hsData: {
         width: 2001,
         height: 1125,

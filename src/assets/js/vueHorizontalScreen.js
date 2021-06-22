@@ -201,38 +201,23 @@ function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback,
       }
 
     } else {
-      // console.log("rotate", rotate, "disY", disY, "distance", distance, newBaseInfo)
-      if (rotate == 90) {
-        if (disY < 0 && disY < Number(-distance)) {
-          dispatchSwipe("swipeLeft", newBaseInfo);
-        }
-        else if (disY > 0 && disY > distance) {
-          dispatchSwipe("swipeRight", newBaseInfo);
-        }
-        if (disX < 0 && disX < Number(-distance)) {
-          dispatchSwipe("swipeBottom", newBaseInfo);
-        }
-        else if (disX > 0 && disX > distance) {
-          dispatchSwipe("swipeTop", newBaseInfo);
-        }
+      let eventName = "";
+      //水平事件
+      if (disY < 0 && disY < Number(-distance)) {
+        rotate === 90 ? eventName = "swipeLeft" : eventName = "swipeRight";
       }
-      else if (rotate == -90) {
-        //同样判断条件，触发事件方向相反
-        if (disY < 0 && disY < Number(-distance)) {
-          dispatchSwipe("swipeRight", newBaseInfo);
-        }
-        else if (disY > 0 && disY > distance) {
-          dispatchSwipe("swipeLeft", newBaseInfo);
-        }
-        if (disX < 0 && disX < Number(-distance)) {
-          dispatchSwipe("swipeTop", newBaseInfo);
-        }
-        else if (disX > 0 && disX > distance) {
-          dispatchSwipe("swipeBottom", newBaseInfo);
-        }
+      else if (disY > 0 && disY > distance) {
+        rotate === 90 ? eventName = "swipeRight" : eventName = "swipeLeft";
       }
-
-
+      eventName && dispatchSwipe(eventName, newBaseInfo)
+      //垂直事件
+      if (disX < 0 && disX < Number(-distance)) {
+        rotate === 90 ? eventName = "swipeBottom" : eventName = "swipeTop";
+      }
+      else if (disX > 0 && disX > distance) {
+        rotate === 90 ? eventName = "swipeTop" : eventName = "swipeBottom";
+      }
+      eventName && dispatchSwipe(eventName, newBaseInfo)
     }
 
 
