@@ -99,10 +99,10 @@ export default {
     },
     hsSwipe(data) {
       let { type, dis } = data;
-      if (type == "swipeLeft" && dis >= 20) {
+      if (type == "swipeLeft" && dis >= 10) {
         console.log("swipeLeft");
-      } else if (type == "swipeRight" && dis >= 20) {
-        console.log("swipeRight");
+      } else if (type == "swipeRight" && dis >= 10) {
+        console.log("swipeRight", dis);
       }
       // if (type == "swipeBottom" && dis >= 5) {
       //   console.log("swipeBottom");

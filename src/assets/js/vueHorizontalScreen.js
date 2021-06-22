@@ -135,6 +135,7 @@ function fnMoveParams(obj = {}, el) {
  * @returns 
  */
 function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback, el) {
+  //判断派发哪个事件
   let swipes = {
     win: function (swipeName, data) {
       console.log("触发事件", swipeName)
@@ -149,54 +150,85 @@ function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback,
       callback(data, el);
     },
   }
+  //组合派发事件的参数
+  let dispatchSwipe = function (name, baseConfig) {
+    let { disY, disX, rotate, isHsAdapetAndMobile } = baseConfig;
+    let isHorizontalSwipe = name == "swipeLeft" || name == "swipeRight";
+    let dis = 0;
+    //水平方向事件
+    if (isHorizontalSwipe) {
+      if (isHsAdapetAndMobile) {
+        //需要做横屏适配，并且是手机设备
+        dis = Math.abs(disY);
+
+      }
+      else {
+        //设备竖屏，不需要做横屏适配
+        dis = Math.abs(disX);
+      }
+    }
+    else {
+      //垂直方向事件
+      if (isHsAdapetAndMobile) {
+        //需要做横屏适配，并且是手机设备
+        dis = Math.abs(disX);
+      }
+      else {
+        //设备竖屏，不需要做横屏适配
+        dis = Math.abs(disY);
+      }
+    }
+    swipes[callbackType](name, { dis, type: name, rotate });
+  }
   return function (ev) {
     stopPropagation(el, ev);
     preventDefault(el, ev);
+    let { disY, distance, disX, rotate } = baseInfo;
     let dir = getDir();//1=>横屏 0=>竖屏
-    let { disY, disc, disX, rotate } = baseInfo;
+    let newBaseInfo = { ...baseInfo, isHsAdapetAndMobile: dir !== 1 && isMobile() }
     if (dir == 1 || !isMobile()) {
-      if (disY < 0 && disY < Number(-disc)) {
-        swipes[callbackType]("swipeTop", { dis: Math.abs(disY), type: "swipeTop" });
+      if (disY < 0 && disY < Number(-distance)) {
+        dispatchSwipe("swipeTop", newBaseInfo);
       }
-      else if (disY > 0 && disY > disc) {
-        swipes[callbackType]("swipeBottom", { dis: Math.abs(disY), type: "swipeBottom" });
+      else if (disY > 0 && disY > distance) {
+        dispatchSwipe("swipeBottom", newBaseInfo);
       }
-      if (disX < 0 && disX < Number(-disc)) {
-        swipes[callbackType]("swipeLeft", { dis: Math.abs(disX), type: "swipeLeft" });
+      if (disX < 0 && disX < Number(-distance)) {
+        dispatchSwipe("swipeLeft", newBaseInfo);
       }
-      else if (disX > 0 && disX > disc) {
-        swipes[callbackType]("swipeRight", { dis: Math.abs(disX), type: "swipeRight" });
+      else if (disX > 0 && disX > distance) {
+        dispatchSwipe("swipeRight", newBaseInfo);
       }
 
     } else {
-      console.log("rotate", rotate)
+      // console.log("rotate", rotate, "disY", disY, "distance", distance, newBaseInfo)
       if (rotate == 90) {
-        if (disY < 0 && disY < Number(-disc)) {
-          swipes[callbackType]("swipeLeft", { dis: Math.abs(disY), type: "swipeLeft", rotate });
+        if (disY < 0 && disY < Number(-distance)) {
+          dispatchSwipe("swipeLeft", newBaseInfo);
         }
-        else if (disY > 0 && disY > disc) {
-          swipes[callbackType]("swipeRight", { dis: Math.abs(disY), type: "swipeRight", rotate });
+        else if (disY > 0 && disY > distance) {
+          dispatchSwipe("swipeRight", newBaseInfo);
         }
-        if (disX < 0 && disX < Number(-disc)) {
-          swipes[callbackType]("swipeBottom", { dis: Math.abs(disX), type: "swipeBottom", rotate });
+        if (disX < 0 && disX < Number(-distance)) {
+          dispatchSwipe("swipeBottom", newBaseInfo);
         }
-        else if (disX > 0 && disX > disc) {
-          swipes[callbackType]("swipeTop", { dis: Math.abs(disX), type: "swipeTop", rotate });
+        else if (disX > 0 && disX > distance) {
+          dispatchSwipe("swipeTop", newBaseInfo);
         }
       }
       else if (rotate == -90) {
         //同样判断条件，触发事件方向相反
-        if (disY < 0 && disY < Number(-disc)) {
-          swipes[callbackType]("swipeRight", { dis: Math.abs(disY), type: "swipeRight", rotate });
+        if (disY < 0 && disY < Number(-distance)) {
+          dispatchSwipe("swipeRight", newBaseInfo);
         }
-        else if (disY > 0 && disY > disc) {
-          swipes[callbackType]("swipeLeft", { dis: Math.abs(disY), type: "swipeLeft", rotate });
+        else if (disY > 0 && disY > distance) {
+          dispatchSwipe("swipeLeft", newBaseInfo);
         }
-        if (disX < 0 && disX < Number(-disc)) {
-          swipes[callbackType]("swipeTop", { dis: Math.abs(disX), type: "swipeTop", rotate });
+        if (disX < 0 && disX < Number(-distance)) {
+          dispatchSwipe("swipeTop", newBaseInfo);
         }
-        else if (disX > 0 && disX > disc) {
-          swipes[callbackType]("swipeBottom", { dis: Math.abs(disX), type: "swipeBottom", rotate });
+        else if (disX > 0 && disX > distance) {
+          dispatchSwipe("swipeBottom", newBaseInfo);
         }
       }
 
