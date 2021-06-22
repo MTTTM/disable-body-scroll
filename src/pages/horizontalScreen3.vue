@@ -1,9 +1,9 @@
 <template>
   <div class="wrap" v-horizontal-screen="hsData">
     <div>
-      <div class="fixed-pancel" v-disabled-body-scroll="config">
+      <div class="fixed-pancel" v-hs-swipe.stop.counterclockwise="hsSwipe">
         <div class="fixed-pancel-inner">
-          <p style="background: green">header</p>
+          <p style="background: green">dom swipe</p>
           <p v-for="item in arr" :key="item" @click="clickFn(item)">
             {{ item }}
           </p>
@@ -58,10 +58,7 @@ export default {
   name: "App",
   data() {
     return {
-      arr: [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-      ],
+      arr: [1, 2, 3],
       hsData: {
         width: 2001,
         height: 1125,
@@ -102,9 +99,8 @@ export default {
         alert(obj.data.data.type);
       }
     },
-    hsSwipe(data, el) {
+    hsSwipe(data) {
       let { type, dis } = data;
-      console.log("dom event", data, type, dis, el);
       if (type == "swipeLeft" && dis >= 20) {
         console.log("swipeLeft");
       } else if (type == "swipeRight" && dis >= 20) {

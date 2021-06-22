@@ -8,6 +8,7 @@
 // | Author: MTTTM 
 // +----------------------------------------------------------------------
 /**
+ * 用户浏览器设备，不是用那种视频方案
  * @returns {Number} 1=>横屏 0=>竖屏
  */
 export const getDir = () => {
@@ -132,6 +133,7 @@ function fnMoveParams(obj = {}, el) {
 function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback, el) {
   let swipes = {
     win: function (swipeName, data) {
+      console.log("触发事件", swipeName)
       if (eventMaps[swipeName] && eventMaps[swipeName] instanceof Event) {
         dispatch(eventMaps[swipeName], data);
       }
@@ -147,7 +149,7 @@ function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback,
     stopPropagation(el, ev);
     preventDefault(el, ev);
     let dir = getDir();//1=>横屏 0=>竖屏
-    let { disY, disc, disX } = baseInfo;
+    let { disY, disc, disX, rotate } = baseInfo;
     if (dir == 1 || !isMobile()) {
       if (disY < 0 && disY < Number(-disc)) {
         swipes[callbackType]("swipeTop", { dis: Math.abs(disY), type: "swipeTop" });
@@ -163,20 +165,42 @@ function fnEndParams(callbackType = "", baseInfo = {}, eventMaps = {}, callback,
       }
 
     } else {
-      //设备竖屏
-      if (disY < 0 && disY < Number(-disc)) {
-        swipes[callbackType]("swipeLeft", { dis: Math.abs(disY), type: "swipeLeft" });
+      console.log("rotate", rotate)
+      if (rotate == 90) {
+        if (disY < 0 && disY < Number(-disc)) {
+          swipes[callbackType]("swipeLeft", { dis: Math.abs(disY), type: "swipeLeft", rotate });
+        }
+        else if (disY > 0 && disY > disc) {
+          swipes[callbackType]("swipeRight", { dis: Math.abs(disY), type: "swipeRight", rotate });
+        }
+        if (disX < 0 && disX < Number(-disc)) {
+          swipes[callbackType]("swipeBottom", { dis: Math.abs(disX), type: "swipeBottom", rotate });
+        }
+        else if (disX > 0 && disX > disc) {
+          swipes[callbackType]("swipeTop", { dis: Math.abs(disX), type: "swipeTop", rotate });
+        }
       }
-      else if (disY > 0 && disY > disc) {
-        swipes[callbackType]("swipeRight", { dis: Math.abs(disY), type: "swipeRight" });
+      else if (rotate == -90) {
+        //同样判断条件，触发事件方向相反
+        if (disY < 0 && disY < Number(-disc)) {
+          swipes[callbackType]("swipeRight", { dis: Math.abs(disY), type: "swipeRight", rotate });
+        }
+        else if (disY > 0 && disY > disc) {
+          swipes[callbackType]("swipeLeft", { dis: Math.abs(disY), type: "swipeLeft", rotate });
+        }
+        if (disX < 0 && disX < Number(-disc)) {
+          swipes[callbackType]("swipeTop", { dis: Math.abs(disX), type: "swipeTop", rotate });
+        }
+        else if (disX > 0 && disX > disc) {
+          swipes[callbackType]("swipeBottom", { dis: Math.abs(disX), type: "swipeBottom", rotate });
+        }
       }
-      if (disX < 0 && disX < Number(-disc)) {
-        swipes[callbackType]("swipeBottom", { dis: Math.abs(disX), type: "swipeBottom" });
-      }
-      else if (disX > 0 && disX > disc) {
-        swipes[callbackType]("swipeTop", { dis: Math.abs(disX), type: "swipeTop" });
-      }
+
+
     }
+
+
+
   }
 }
 /**
@@ -211,7 +235,7 @@ function hsLayoutFunc(obj = {}, e) {
     || window.orientation === 0
   ) && !isPc) {//竖屏状态
     el.style.webkitTransform = el.style.transform = `rotate(${rotate}deg)`;
-    console.log("rotate", rotate)
+
     if (rotate == 90) {
       el.style.webkitTransformOrigin = el.style.transformOrigin = `${clientWidth / 2}px center`;
     }
@@ -244,7 +268,6 @@ function hsLayoutFunc(obj = {}, e) {
 }
 function directiveBindfunction(el, binding, vnode) {
   let { cssVar, width, height, times, triggerTime, AdaptEventName, setWrapAttr, adaptedCallback, rotate } = binding.value;
-  console.log("rotatexxx", rotate)
   if ([90, -90].indexOf(rotate) == -1) {
     rotate = 90;
   }
@@ -294,12 +317,23 @@ function directiveUnBind(el) {
 }
 function directiveForDomfunction(el, binding) {
   let callback = binding.value;
-  let { stop, prevent } = binding.modifiers;
+  let { stop, prevent, clockwise, counterclockwise } = binding.modifiers;
+  //clockwise是否是顺时钟等于90度选项
+  //counterclockwise 逆时针等于-90度
+  let rotate = 90;
+  //逆时间优先级最大，只要出现就是逆时针，也就旋转-90度
+  if (counterclockwise) {
+    rotate = -90;
+  }
+  else if (clockwise) {
+    rotate = 90;
+  }
   let baseInfo = {
     startX: 0,
     startY: 0,
     disX: 0,
-    distance: 1
+    distance: 1,
+    rotate,
   }
   el.$stop = stop;
   el.$prevent = prevent;
@@ -339,12 +373,15 @@ let eventInited = false;
  */
 export const event = (obj = { distance: 50, pre: '' }) => {
   if (eventInited) { return; }
-  let { pre, distance } = obj;
+  let { pre, distance, rotate } = obj;
+  distance = distance ? distance : 50;
+  pre = pre ? pre : "";
   let baseInfo = {
     startX: 0,
     startY: 0,
     disX: 0,
-    distance
+    distance,
+    rotate: [90, -90].indexOf(rotate) ? rotate : 90
   }
   //标记事件
   let swipeLeft = createEvent(`${pre}swipeLeft`);
