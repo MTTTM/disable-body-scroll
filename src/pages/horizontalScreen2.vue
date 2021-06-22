@@ -77,12 +77,12 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      window.addEventListener("swipeLeft", this.swipeCallback);
-      window.addEventListener("swipeRight", this.swipeCallback);
-      window.addEventListener("swipeTop", this.swipeCallback);
-      window.addEventListener("swipeBottom", this.swipeCallback);
-    });
+    // this.$nextTick(() => {
+    //   window.addEventListener("swipeLeft", this.swipeCallback);
+    //   window.addEventListener("swipeRight", this.swipeCallback);
+    //   window.addEventListener("swipeTop", this.swipeCallback);
+    //   window.addEventListener("swipeBottom", this.swipeCallback);
+    // });
   },
   beforeDestroy() {
     /*don't forget to remove eventlistener!!*/

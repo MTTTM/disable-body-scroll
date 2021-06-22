@@ -56,6 +56,10 @@ const dispatch = function (event, data, target = null) {
     target['dispatchEvent'](event);
   }
 }
+//修复旋转参数
+function fixParamsRotate(rotate) {
+  return [90, -90].indexOf(rotate) > -1 ? rotate : 90
+}
 /**
  * 注册事件，并且返回
  * @param {String} eventName 
@@ -268,9 +272,7 @@ function hsLayoutFunc(obj = {}, e) {
 }
 function directiveBindfunction(el, binding, vnode) {
   let { cssVar, width, height, times, triggerTime, AdaptEventName, setWrapAttr, adaptedCallback, rotate } = binding.value;
-  if ([90, -90].indexOf(rotate) == -1) {
-    rotate = 90;
-  }
+  rotate = fixParamsRotate(rotate);
   if (!times) {
     times = 1;
     console.warn("times is required!!");
@@ -376,12 +378,13 @@ export const event = (obj = { distance: 50, pre: '' }) => {
   let { pre, distance, rotate } = obj;
   distance = distance ? distance : 50;
   pre = pre ? pre : "";
+  rotate = fixParamsRotate(rotate);
   let baseInfo = {
     startX: 0,
     startY: 0,
     disX: 0,
     distance,
-    rotate: [90, -90].indexOf(rotate) ? rotate : 90
+    rotate
   }
   //标记事件
   let swipeLeft = createEvent(`${pre}swipeLeft`);
