@@ -39,8 +39,17 @@ Vue.directive("disabled-body-scroll", { ...directive });
 ```
 
 ```html
+//
 <div id="modelScrollBox" v-disabled-body-scroll>
   ...
 </div>
 ;
 ```
+
+#### Q&A
+
+- Dynamically enable or disable the diasabledScroll
+- like `v-disabled-body-scroll:[disabledScrollDirectiveStatus]`,variable disabledScrollDirectiveStatus is ”working“ or "disabled"
+
+- Adaptive horizontal screen app
+- like `v-disabled-body-scroll="rotate"`,Variable rotate equals 0 or 90 or - 90
