@@ -23,7 +23,8 @@
     "prod": "gulp"
   },
   "dependencies": {
-    "core-js": "^3.6.5"
+    "core-js": "^3.6.5",
+    "vconsole": "^3.11.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

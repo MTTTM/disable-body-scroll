@@ -2,6 +2,10 @@
 let isScrolledToBottom = (dom) => dom.scrollHeight <= (dom.scrollTop + dom.offsetHeight);
 let isScrolledToTop = (dom) => dom.scrollTop === 0;
 
+function suppertScrollBehavior() {
+  return document.body.style.overscrollBehavior !== undefined;
+}
+
 /**
  * @params dom {dom}
  * @params swipeDir {string} top|bottom 手指滑动方向
@@ -24,6 +28,15 @@ function removeDocumentStartEvent(el) {
   el.removeEventListener("mousemove", el.$movefunction)
   el.removeEventListener("mouseup", el.$upFunction)
 }
+function setScrollBehavior(dom, status) {
+  if (status == 'working') {
+    dom.style.overscrollBehavior = "contain";
+    console.log("dom", dom)
+  }
+  else {
+    dom.style.overscrollBehavior = "auto";
+  }
+}
 /**
  * 
  * @param {*} dom  model scroll dom 
@@ -31,7 +44,11 @@ function removeDocumentStartEvent(el) {
 export const disabledBodyScroll = function (dom, binding) {
   let rotate = binding.value;
   let status = binding.arg === 'disabled' ? 'disabled' : 'working';
-  console.log("status", status)
+  if (suppertScrollBehavior()) {
+    setScrollBehavior(dom, status)
+    return;
+  }
+
   let startY = 0;
   let startX = 0;
   function fixEvent(e) {
@@ -73,7 +90,6 @@ export const disabledBodyScroll = function (dom, binding) {
       dir = disX < 0 ? "moveToTop" : "moveToBottom";
     }
     let disabled = disabledDefault(dom, dir);
-    console.log("dir!!!!====", dir, "disY", disY, "disabled", disabled)
     //status为working情况下才考虑是否执行
     if (status === 'working' && disabled && e.cancelable) {
       e.preventDefault();

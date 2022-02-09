@@ -88,7 +88,7 @@ export default {
   bottom: 0;
   overflow: auto;
   z-index: 100;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: auto;
 }
 
 .fixed-pancel-inner p {
@@ -105,7 +105,7 @@ export default {
   height: 100%;
   width: 100%;
   overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: auto;
 }
 
 li {
