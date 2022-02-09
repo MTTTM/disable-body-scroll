@@ -1,6 +1,14 @@
 <template>
   <div class="wrap">
-    <div>
+    <button class="btn" @click="show = !show">
+      {{ show ? "hide" : "show" }} modal
+    </button>
+    <div
+      class="wrap-wrpa"
+      v-show="show"
+      @touchstart.prevent.stop
+      @touchsmove.prevent.stop
+    >
       <div class="fixed-pancel" v-disabled-body-scroll>
         <div class="fixed-pancel-inner">
           <p style="background: green">header</p>
@@ -62,6 +70,7 @@ export default {
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
       ],
+      show: false,
     };
   },
   methods: {
@@ -118,5 +127,21 @@ li:nth-child(odd) {
 }
 p:nth-child(odd) {
   background: pink;
+}
+.wrap-wrpa {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+.btn {
+  position: fixed;
+  z-index: 9999;
+  left: 50px;
+  top: 20px;
+  width: 100px;
+  height: 50px;
+  display: block;
 }
 </style>
